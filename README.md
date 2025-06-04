@@ -9,20 +9,6 @@ The project is organized into two main directories:
 -   `backend/`: Contains the Spring Boot application responsible for the API, business logic, and data persistence.
 -   `frontend/`: Contains the React application (built with Vite) that provides the user interface.
 
-your-repository-name/
-├── backend/
-│   ├── src/
-│   ├── pom.xml (or build.gradle)
-│   └── ... (Spring Boot project files)
-├── frontend/
-│   ├── public/
-│   ├── src/
-│   ├── package.json
-│   ├── vite.config.js
-│   └── ... (React project files)
-├── .gitignore
-└── README.md
-
 ## Technologies Used
 
 ### Backend (Spring Boot)
