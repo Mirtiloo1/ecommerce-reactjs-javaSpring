@@ -1,7 +1,6 @@
 package br.universidade.loja.model;
 
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 
 @Entity
@@ -13,88 +12,38 @@ public class Produto {
     private String nome;
     private String descricao;
     private BigDecimal preco;
+    private String imageUrl;
+
+    @Transient
     private Integer quantidadeDisponivel;
 
-    public Produto(Long id, String nome, String descricao, BigDecimal preco, Integer quantidadeDisponivel) {
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+
+
+    public Produto(Long id, String nome, String descricao, BigDecimal preco, String imageUrl) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
-        this.quantidadeDisponivel = quantidadeDisponivel;
+        this.imageUrl = imageUrl;
     }
 
     public Produto() {}
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public BigDecimal getPreco() {
-        return preco;
-    }
-
-    public void setPreco(BigDecimal preco) {
-        this.preco = preco;
-    }
-
-    public Integer getQuantidadeDisponivel() {
-        return quantidadeDisponivel;
-    }
-
-    public void setQuantidadeDisponivel(Integer quantidadeDisponivel) {
-        this.quantidadeDisponivel = quantidadeDisponivel;
-    }
-
-    public void atualizarPreco(BigDecimal novoPreco) {
-        this.setPreco(novoPreco);
-    }
-
-    public void adicionarEstoque(int quantidade) {
-        if (quantidade > 0) {
-            this.setQuantidadeDisponivel(this.getQuantidadeDisponivel() + quantidade);
-        }
-    }
-
-    public void removerEstoque(int quantidade) {
-        if (quantidade > 0 && this.getQuantidadeDisponivel() >= quantidade) {
-            this.setQuantidadeDisponivel(this.getQuantidadeDisponivel() - quantidade);
-        } else {
-            throw new IllegalArgumentException("Quantidade insuficiente em estoque ou quantidade inválida para remoção.");
-        }
-    }
-
-    public boolean verificarDisponibilidade(int quantidade) {
-        return this.getQuantidadeDisponivel() >= quantidade;
-    }
-
-    @Override
-    public String toString() {
-        return "Produto{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", preco=" + preco +
-                ", quantidadeDisponivel=" + quantidadeDisponivel +
-                '}';
-    }
+    public Category getCategory() { return category; }
+    public void setCategory(Category category) { this.category = category; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
+    public BigDecimal getPreco() { return preco; }
+    public void setPreco(BigDecimal preco) { this.preco = preco; }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public Integer getQuantidadeDisponivel() { return quantidadeDisponivel; }
+    public void setQuantidadeDisponivel(Integer quantidadeDisponivel) { this.quantidadeDisponivel = quantidadeDisponivel; }
 }

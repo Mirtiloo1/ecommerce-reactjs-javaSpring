@@ -1,4 +1,12 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+} from "react";
+import toast from "react-hot-toast";
+import { useAuth } from "./AuthContext";
 
 const CartContext = createContext();
 
@@ -7,52 +15,89 @@ export const useCart = () => {
 };
 
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState(() => {
-    try {
-      const localData = localStorage.getItem("nexusStoreCart");
-      return localData ? JSON.parse(localData) : [];
-    } catch (error) {
-      console.error("Erro ao carregar carrinho do localStorage:", error);
-      return [];
+  const [cartItems, setCartItems] = useState([]);
+  const { user } = useAuth();
+  const API_BASE_URL = "http://localhost:8080/api/cart";
+
+  const fetchCart = useCallback(async () => {
+    if (!user) {
+      setCartItems([]);
+      return;
     }
-  });
+    try {
+      const response = await fetch(API_BASE_URL, {
+        headers: { Authorization: user.auth },
+      });
+      if (!response.ok) throw new Error("Falha ao buscar carrinho");
+      const cartData = await response.json();
+      setCartItems(
+        cartData.items.map((item) => ({
+          ...item.produto,
+          quantity: item.quantity,
+          cartItemId: item.id,
+        }))
+      );
+    } catch (error) {
+      console.error("Erro ao buscar carrinho:", error);
+      toast.error("Não foi possível carregar seu carrinho.");
+    }
+  }, [user]);
 
   useEffect(() => {
-    localStorage.setItem("nexusStoreCart", JSON.stringify(cartItems));
-  }, [cartItems]);
+    fetchCart();
+  }, [fetchCart]);
 
-  const addToCart = (product, quantity = 1) => {
-    setCartItems((prevItems) => {
-      const existingItem = prevItems.find((item) => item.id === product.id);
-      if (existingItem) {
-        return prevItems.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
-      }
-      return [...prevItems, { ...product, quantity }];
-    });
-    console.log(
-      `Adicionado ao carrinho: ${product.nome}, Quantidade: ${quantity}`
-    );
-  };
+  const getAuthHeader = () => ({
+    Authorization: user.auth,
+    "Content-Type": "application/json",
+  });
 
-  const removeFromCart = (productId) => {
-    setCartItems((prevItems) =>
-      prevItems.filter((item) => item.id !== productId)
-    );
-  };
-
-  const updateQuantity = (productId, newQuantity) => {
-    if (newQuantity <= 0) {
-      removeFromCart(productId);
-    } else {
-      setCartItems((prevItems) =>
-        prevItems.map((item) =>
-          item.id === productId ? { ...item, quantity: newQuantity } : item
-        )
+  const addToCart = async (product, quantity = 1) => {
+    if (!user) {
+      toast.error(
+        "Você precisa estar logado para adicionar itens ao carrinho."
       );
+      return;
+    }
+    try {
+      await fetch(`${API_BASE_URL}/items`, {
+        method: "POST",
+        headers: getAuthHeader(),
+        body: JSON.stringify({ productId: product.id, quantity }),
+      });
+      toast.success(`${product.nome} adicionado ao carrinho!`);
+      await fetchCart();
+    } catch (error) {
+      console.error("Erro ao adicionar item:", error);
+      toast.error("Erro ao adicionar item ao carrinho.");
+    }
+  };
+
+  const removeFromCart = async (productId) => {
+    try {
+      await fetch(`${API_BASE_URL}/items/${productId}`, {
+        method: "DELETE",
+        headers: getAuthHeader(),
+      });
+      toast.success(`Item removido do carrinho!`);
+      await fetchCart();
+    } catch (error) {
+      console.error("Erro ao remover item:", error);
+      toast.error("Erro ao remover item do carrinho.");
+    }
+  };
+
+  const updateQuantity = async (productId, newQuantity) => {
+    try {
+      await fetch(`${API_BASE_URL}/items/${productId}`, {
+        method: "PUT",
+        headers: getAuthHeader(),
+        body: JSON.stringify({ quantity: newQuantity }),
+      });
+      await fetchCart();
+    } catch (error) {
+      console.error("Erro ao atualizar quantidade:", error);
+      toast.error("Erro ao atualizar a quantidade.");
     }
   };
 
@@ -74,6 +119,7 @@ export const CartProvider = ({ children }) => {
     updateQuantity,
     getCartItemCount,
     getCartTotal,
+    fetchCart,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
