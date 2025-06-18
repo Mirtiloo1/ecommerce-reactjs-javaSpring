@@ -1,138 +1,158 @@
-# E-commerce Application: React Frontend & Spring Boot Backend
 
-This repository contains a full-stack e-commerce application, developed with a React frontend and a Spring Boot backend, designed for product management and a basic shopping cart functionality.
+# NexusStore — Full-Stack E-commerce Platform
 
-## Project Structure
+Welcome to **NexusStore**, a modern full-stack e-commerce application built with a **React.js** frontend and a robust **Java + Spring Boot** backend.
 
-The project is organized into two main directories:
+This project goes beyond a basic CRUD, implementing essential features of a real-world e-commerce platform, including role-based authentication (Admin & User), a persistent shopping cart, stock and category management, and a sleek, responsive user interface.
 
--   `backend/`: Contains the Spring Boot application responsible for the API, business logic, and data persistence.
--   `frontend/`: Contains the React application (built with Vite) that provides the user interface.
+---
 
-## Technologies Used
+## ✨ Features
 
-### Backend (Spring Boot)
+### 🔗 Backend
 
--   **Language:** Java 22.0.1
--   **Framework:** Spring Boot 3.4.5
--   **Database:** PostgreSQL
--   **ORM:** Spring Data JPA (with Hibernate 6.6.13.Final)
--   **Build Tool:** Maven (or Gradle, depending on your setup)
--   **API:** RESTful API for product management (CRUD operations).
+- **Robust Security:** Authentication and authorization with Spring Security, defining `USER` and `ADMIN` roles to protect API endpoints.
+- **Product Management:** Full CRUD operations for products, including image uploads and category association.
+- **Normalized Data Structure:** Stock and categories managed in dedicated tables for better scalability.
+- **Persistent Shopping Cart:** Each user's shopping cart is stored in the database, enabling cross-device persistence.
+- **Checkout Simulation:** A transactional checkout process that validates stock, decrements quantities, and clears the cart.
+- **Data Seeding:** Automatically creates an admin user and default product categories on first run.
 
-### Frontend (React)
+### 🎨 Frontend
 
--   **Framework:** React.js (with Vite)
--   **Language:** JavaScript
--   **Styling:** Tailwind CSS (based on provided code snippets)
--   **State Management:** React Context API (for shopping cart)
--   **Routing:** React Router DOM (based on provided code snippets)
--   **HTTP Client:** Fetch API (or Axios, if you integrate it)
--   **UI Icons:** Lucide React
+- **Modern Reactive UI:** Built with React.js and styled with Tailwind CSS for a responsive and clean user experience.
+- **Component-Based Architecture:** Clean code with reusable components and state management using React Context API (`AuthContext`, `CartContext`).
+- **Client-Side Routing:** Smooth navigation between pages (Homepage, Product Detail, Cart) using React Router DOM.
+- **Filtering & Searching:** Client-side searching by name, category filtering, and sorting by price or alphabetical order.
+- **Admin Dashboard:** Protected route for administrators to manage products (add, edit, delete).
+- **Enhanced UX:** Toast notifications (React Hot Toast) and a top-loading bar (NProgress) for feedback on user actions.
 
-## Features
+---
+
+## 🛠️ Technologies Used
 
 ### Backend
 
--   **Product Management:** CRUD (Create, Read, Update, Delete) operations for products.
-    -   Each product includes `id`, `name`, `description`, `price`, and `quantityAvailable`.
-    -   Products are associated with `Categories` and have `Estoque` (Stock) managed separately.
--   **Database Integration:** Persistence of products, categories, and stock in a PostgreSQL database.
--   **CORS Configuration:** Enabled for frontend-backend communication.
+- **Language:** Java 17
+- **Framework:** Spring Boot
+- **Data Persistence:** Spring Data JPA / Hibernate
+- **Security:** Spring Security
+- **Database:** PostgreSQL
+- **Build Tool:** Maven
 
 ### Frontend
 
--   **Product Listing:** Displays available products on the homepage.
--   **Add/Edit Product Forms:** Allows creation of new products and editing of existing ones.
--   **Shopping Cart:**
-    -   Add products to cart.
-    -   Adjust quantities in cart.
-    -   Remove items from cart.
-    -   Calculates total cart value.
-    -   Cart data is persisted in local storage.
--   **Responsive Design:** Utilizes Tailwind CSS for a responsive layout.
--   **Navigation:** Basic navigation between Home and Cart pages.
+- **Language:** JavaScript (ES6+) with JSX
+- **Framework:** React.js
+- **Build Tool:** Vite
+- **Styling:** Tailwind CSS
+- **Routing:** React Router DOM
+- **UI Components:** Lucide React (Icons), NProgress, React Hot Toast
 
-## Getting Started
+---
 
-Follow these instructions to set up and run the project locally.
+## 🚀 Getting Started
 
-### Prerequisites
+Follow these steps to run the project locally.
 
--   Java Development Kit (JDK) 22 or higher
--   Apache Maven (if using Maven) or Gradle (if using Gradle)
--   Node.js (LTS version recommended)
--   npm (Node Package Manager) or Yarn
--   PostgreSQL database server
--   Docker Desktop (if you choose to run backend via Docker, or if Render requires it for deploy)
+### ✅ Prerequisites
 
-### 1. Backend Setup (Spring Boot)
+- JDK 17 or higher
+- Apache Maven
+- Node.js (LTS recommended)
+- npm or Yarn
+- A running PostgreSQL instance
 
-1.  **Clone the repository:**
-    ```bash
-    git clone [https://github.com/your-username/your-repository-name.git](https://github.com/your-username/your-repository-name.git)
-    cd your-repository-name/backend
-    ```
-    (Replace `your-username` and `your-repository-name` with your actual GitHub details).
-2.  **Database Configuration:**
-    -   Create a PostgreSQL database (e.g., `db_loja`).
-    -   Update `src/main/resources/application.properties` with your PostgreSQL database credentials:
-        ```properties
-        spring.datasource.url=jdbc:postgresql://localhost:5432/db_loja
-        spring.datasource.username=your_db_username
-        spring.datasource.password=your_db_password
-        spring.datasource.driver-class-name=org.postgresql.Driver
-        spring.jpa.hibernate.ddl-auto=update # Use 'update' for development, consider 'none' or 'validate' for production with migrations.
-        spring.jpa.show-sql=true
-        ```
-    -   Ensure your `Produto.java` has `@GeneratedValue(strategy = GenerationType.IDENTITY)` for `id` to allow auto-increment, and your database table `produto`'s `id` column is set up as `BIGSERIAL PRIMARY KEY`.
-3.  **CORS Configuration:**
-    -   Verify `src/main/java/br/universidade/loja/configuration/CorsConfiguration.java` allows requests from your frontend's development URL (e.g., `http://localhost:5173`).
-        ```java
-        // ...
-        .allowedOrigins("http://localhost:5173") // Adjust if your React dev server uses a different port
-        // ...
-        ```
-4.  **Run the Backend:**
-    -   Open your terminal in the `backend/` directory.
-    -   Execute the Spring Boot application:
-        ```bash
-        mvn spring-boot:run
-        # Or if using Gradle:
-        # gradlew bootJar
-        # java -jar build/libs/*.jar
-        ```
-    -   The backend API should be running on `http://localhost:8080`.
+---
 
-### 2. Frontend Setup (React)
+### 🖥️ Backend Setup
 
-1.  **Navigate to the frontend directory:**
-    ```bash
-    cd ../frontend
-    ```
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    # Or: yarn install
-    ```
-3.  **Run the Frontend:**
-    ```bash
-    npm run dev
-    # Or: yarn dev
-    ```
-    The React application should now be running on `http://localhost:5173` (or a similar port).
+1. Navigate to the backend folder:
 
-## API Endpoints (Backend)
+```bash
+cd backend
+```
 
-The backend provides the following RESTful API endpoints:
+2. Configure the database:
 
--   `GET /produtos`: Get a list of all products (including associated stock quantity and category name).
--   `POST /produtos`: Create a new product (requires JSON body with `nome`, `descricao`, `preco`, `quantidadeDisponivel`, `categoriaId`).
--   `GET /produtos/{id}`: Get details of a specific product by ID.
--   `PUT /produtos/{id}`: Update an existing product by ID (requires JSON body similar to POST).
--   `DELETE /produtos/{id}`: Delete a product by ID.
--   `GET /categorias`: Get a list of all categories (if you implement a `CategoriaController`).
+- Create a PostgreSQL database (e.g., `db_loja`).
+- Open `src/main/resources/application.properties` and update the credentials:
 
-## Contributing
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/db_loja
+spring.datasource.username=your_postgres_username
+spring.datasource.password=your_postgres_password
+```
 
-Feel free to fork the repository, create a new branch, and submit pull requests.
+3. Run the backend:
+
+```bash
+mvn spring-boot:run
+```
+
+- Backend runs on: `http://localhost:8080`
+- Default admin user and categories are created on first startup.
+
+---
+
+### 🌐 Frontend Setup
+
+1. Navigate to the frontend folder:
+
+```bash
+cd frontend
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Run the frontend:
+
+```bash
+npm run dev
+```
+
+- Frontend runs on: `http://localhost:5173`
+
+---
+
+## 🔐 Default Admin Credentials
+
+```
+Username: admin
+Password: admin
+```
+
+---
+
+## 📑 API Endpoints
+
+### 🔸 Authentication
+
+- `POST /api/auth/register` — Register a new user
+
+### 🔸 Categories
+
+- `GET /api/categories` — List all categories
+
+### 🔸 Products
+
+- `GET /produtos` — List all products
+- `GET /produtos/{id}` — Get product by ID
+- `POST /produtos` — (Admin) Create a product (multipart/form-data)
+- `PUT /produtos/{id}` — (Admin) Update a product (multipart/form-data)
+- `DELETE /produtos/{id}` — (Admin) Delete a product
+
+### 🔸 Shopping Cart
+
+- `GET /api/cart` — Get user's cart (Authenticated)
+- `POST /api/cart/items` — Add item to cart (Authenticated)
+- `PUT /api/cart/items/{productId}` — Update item quantity (Authenticated)
+- `DELETE /api/cart/items/{productId}` — Remove item from cart (Authenticated)
+
+### 🔸 Checkout
+
+- `POST /api/checkout` — Process checkout, update stock, and clear the cart (Authenticated)
