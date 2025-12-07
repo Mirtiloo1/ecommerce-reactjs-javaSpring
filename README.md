@@ -1,158 +1,178 @@
+# NexusStore — Plataforma E-commerce Full-Stack
 
-# NexusStore — Full-Stack E-commerce Platform
-
-Welcome to **NexusStore**, a modern full-stack e-commerce application built with a **React.js** frontend and a robust **Java + Spring Boot** backend.
-
-This project goes beyond a basic CRUD, implementing essential features of a real-world e-commerce platform, including role-based authentication (Admin & User), a persistent shopping cart, stock and category management, and a sleek, responsive user interface.
+O **NexusStore** é um e-commerce full-stack desenvolvido com **React.js** no frontend e **Java + Spring Boot** no backend.  
+O projeto vai além do CRUD básico, oferecendo autenticação com níveis de acesso, carrinho persistente, gestão de estoque e categorias, além de uma interface moderna e responsiva.
 
 ---
 
-## ✨ Features
+## Índice
 
-### 🔗 Backend
-
-- **Robust Security:** Authentication and authorization with Spring Security, defining `USER` and `ADMIN` roles to protect API endpoints.
-- **Product Management:** Full CRUD operations for products, including image uploads and category association.
-- **Normalized Data Structure:** Stock and categories managed in dedicated tables for better scalability.
-- **Persistent Shopping Cart:** Each user's shopping cart is stored in the database, enabling cross-device persistence.
-- **Checkout Simulation:** A transactional checkout process that validates stock, decrements quantities, and clears the cart.
-- **Data Seeding:** Automatically creates an admin user and default product categories on first run.
-
-### 🎨 Frontend
-
-- **Modern Reactive UI:** Built with React.js and styled with Tailwind CSS for a responsive and clean user experience.
-- **Component-Based Architecture:** Clean code with reusable components and state management using React Context API (`AuthContext`, `CartContext`).
-- **Client-Side Routing:** Smooth navigation between pages (Homepage, Product Detail, Cart) using React Router DOM.
-- **Filtering & Searching:** Client-side searching by name, category filtering, and sorting by price or alphabetical order.
-- **Admin Dashboard:** Protected route for administrators to manage products (add, edit, delete).
-- **Enhanced UX:** Toast notifications (React Hot Toast) and a top-loading bar (NProgress) for feedback on user actions.
+- [Visão Geral](#visão-geral)  
+- [Funcionalidades](#funcionalidades)  
+  - [Backend](#backend)  
+  - [Frontend](#frontend)  
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)  
+- [Guia de Início](#guia-de-início)  
+  - [Pré-requisitos](#pré-requisitos)  
+  - [Configuração do Backend](#configuração-do-backend)  
+  - [Configuração do Frontend](#configuração-do-frontend)  
+- [Credenciais de Administrador](#credenciais-de-administrador)  
+- [Endpoints da API](#endpoints-da-api)
 
 ---
 
-## 🛠️ Technologies Used
+## Visão Geral
+
+O objetivo do NexusStore é oferecer uma base sólida e escalável para aplicações de e-commerce, com funcionalidades essenciais de um sistema real:
+
+- Autenticação com níveis de acesso (Admin e Usuário)  
+- Carrinho persistente  
+- Gestão completa de produtos e categorias  
+- Fluxo de checkout com manipulação transacional de estoque  
+- Interface responsiva e moderna
+
+---
+
+## Funcionalidades
 
 ### Backend
 
-- **Language:** Java 17
-- **Framework:** Spring Boot
-- **Data Persistence:** Spring Data JPA / Hibernate
-- **Security:** Spring Security
-- **Database:** PostgreSQL
-- **Build Tool:** Maven
+- Segurança com autenticação e autorização via Spring Security, utilizando roles `USER` e `ADMIN`  
+- CRUD completo de produtos, incluindo upload de imagens e associação a categorias  
+- Estrutura de dados normalizada, com tabelas dedicadas para estoque e categorias  
+- Carrinho persistente armazenado por usuário no banco de dados  
+- Simulação de checkout com transações, validação de estoque e limpeza do carrinho  
+- Data seeding automático para criar usuário admin e categorias padrão
+
+---
 
 ### Frontend
 
-- **Language:** JavaScript (ES6+) with JSX
-- **Framework:** React.js
-- **Build Tool:** Vite
-- **Styling:** Tailwind CSS
-- **Routing:** React Router DOM
-- **UI Components:** Lucide React (Icons), NProgress, React Hot Toast
+- Interface moderna desenvolvida em React.js e estilizada com Tailwind CSS  
+- Arquitetura baseada em componentes reutilizáveis e gerenciamento de estado com Context API (`AuthContext`, `CartContext`)  
+- Navegação entre páginas com React Router DOM  
+- Filtros de produtos por nome, categoria, ordenação por preço ou ordem alfabética  
+- Dashboard administrativo protegido para gerenciamento de produtos  
+- Notificações e feedback visual com React Hot Toast e NProgress
 
 ---
 
-## 🚀 Getting Started
+## Tecnologias Utilizadas
 
-Follow these steps to run the project locally.
+### Backend
+- Java 17  
+- Spring Boot  
+- Spring Data JPA / Hibernate  
+- Spring Security  
+- PostgreSQL  
+- Maven  
 
-### ✅ Prerequisites
-
-- JDK 17 or higher
-- Apache Maven
-- Node.js (LTS recommended)
-- npm or Yarn
-- A running PostgreSQL instance
-
----
-
-### 🖥️ Backend Setup
-
-1. Navigate to the backend folder:
-
-```bash
-cd backend
-```
-
-2. Configure the database:
-
-- Create a PostgreSQL database (e.g., `db_loja`).
-- Open `src/main/resources/application.properties` and update the credentials:
-
-```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/db_loja
-spring.datasource.username=your_postgres_username
-spring.datasource.password=your_postgres_password
-```
-
-3. Run the backend:
-
-```bash
-mvn spring-boot:run
-```
-
-- Backend runs on: `http://localhost:8080`
-- Default admin user and categories are created on first startup.
+### Frontend
+- React.js  
+- JavaScript (ES6+)  
+- Vite  
+- Tailwind CSS  
+- React Router DOM  
+- NProgress, React Hot Toast, Lucide React
 
 ---
 
-### 🌐 Frontend Setup
+## Guia de Início
 
-1. Navigate to the frontend folder:
+### Pré-requisitos
 
-```bash
-cd frontend
-```
-
-2. Install dependencies:
-
-```bash
-npm install
-```
-
-3. Run the frontend:
-
-```bash
-npm run dev
-```
-
-- Frontend runs on: `http://localhost:5173`
+- JDK 17 ou superior  
+- Maven  
+- Node.js  
+- npm ou Yarn  
+- Instância do PostgreSQL
 
 ---
 
-## 🔐 Default Admin Credentials
+## Configuração do Backend
+
+1. Acesse a pasta do backend:
+
+   ```bash
+   cd backend
+   ```
+
+2. Crie o banco de dados no PostgreSQL (exemplo: `db_loja`).
+
+3. Configure as credenciais no arquivo:
+
+   `src/main/resources/application.properties`
+
+   ```properties
+   spring.datasource.url=jdbc:postgresql://localhost:5432/db_loja
+   spring.datasource.username=SEU_USUARIO
+   spring.datasource.password=SUA_SENHA
+   ```
+
+4. Execute o backend:
+
+   ```bash
+   mvn spring-boot:run
+   ```
+
+- Porta padrão: `http://localhost:8080`  
+- O sistema cria automaticamente o usuário admin e categorias iniciais.
+
+---
+
+## Configuração do Frontend
+
+1. Acesse a pasta do frontend:
+
+   ```bash
+   cd frontend
+   ```
+
+2. Instale as dependências:
+
+   ```bash
+   npm install
+   ```
+
+3. Execute o projeto:
+
+   ```bash
+   npm run dev
+   ```
+
+- Porta padrão: `http://localhost:5173`
+
+---
+
+## Credenciais de Administrador
 
 ```
-Username: admin
-Password: admin
+Usuário: admin
+Senha: admin
 ```
 
 ---
 
-## 📑 API Endpoints
+## Endpoints da API
 
-### 🔸 Authentication
+### Autenticação
+- `POST /api/auth/register` — Registrar novo usuário
 
-- `POST /api/auth/register` — Register a new user
+### Categorias
+- `GET /api/categories` — Listar categorias
 
-### 🔸 Categories
+### Produtos
+- `GET /produtos` — Listar produtos  
+- `GET /produtos/{id}` — Buscar produto  
+- `POST /produtos` — Criar produto (Admin)  
+- `PUT /produtos/{id}` — Atualizar produto (Admin)  
+- `DELETE /produtos/{id}` — Excluir produto (Admin)
 
-- `GET /api/categories` — List all categories
+### Carrinho
+- `GET /api/cart` — Obter carrinho  
+- `POST /api/cart/items` — Adicionar item  
+- `PUT /api/cart/items/{productId}` — Atualizar quantidade  
+- `DELETE /api/cart/items/{productId}` — Remover item
 
-### 🔸 Products
-
-- `GET /produtos` — List all products
-- `GET /produtos/{id}` — Get product by ID
-- `POST /produtos` — (Admin) Create a product (multipart/form-data)
-- `PUT /produtos/{id}` — (Admin) Update a product (multipart/form-data)
-- `DELETE /produtos/{id}` — (Admin) Delete a product
-
-### 🔸 Shopping Cart
-
-- `GET /api/cart` — Get user's cart (Authenticated)
-- `POST /api/cart/items` — Add item to cart (Authenticated)
-- `PUT /api/cart/items/{productId}` — Update item quantity (Authenticated)
-- `DELETE /api/cart/items/{productId}` — Remove item from cart (Authenticated)
-
-### 🔸 Checkout
-
-- `POST /api/checkout` — Process checkout, update stock, and clear the cart (Authenticated)
+### Checkout
+- `POST /api/checkout` — Processar checkout, validar estoque e limpar carrinho
